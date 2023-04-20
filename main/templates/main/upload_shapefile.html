@@ -1,0 +1,154 @@
+{% extends "main/index.html" %}
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data" id="form" action="{% url 'main:save-shapefiles' %}">
+  {% csrf_token %}
+  <div class="container text-center">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="file-upload">Select Shapefile along with .dbf,.prj and .shx</label>
+          <input id="file-upload" type="file" name="zipfile" multiple accept=".shp,.dbf,.prj,.shx">
+          <button id="import-button" type="submit" disabled>Import</button>
+          <div id="file-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <script>
+        const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100 MB
+      
+        const fileInput = document.getElementById("file-upload");
+        const fileListDiv = document.getElementById("file-list");
+        const importButton = document.getElementById("import-button");
+        
+        importButton.disabled = true;
+        let files;
+        fileInput.addEventListener("change", function(event) {
+          files = event.target.files;
+          const fileNames = Array.from(files).map(file => file.name);
+      
+          const fileNamesWithoutExtensions = Array.from(files).map(file => file.name.split('.').slice(0, -1).join('.'));
+          const uniqueNames = [...new Set(fileNamesWithoutExtensions)];
+      
+          if (uniqueNames.length != 1 || files.length > 4){
+            alert("Please only select a shapefile and its associated files")
+          }
+                
+          const requiredExtensions = [".shp", ".dbf", ".prj", ".shx"];
+          const selectedExtensions = fileNames.map(name => name.substr(name.lastIndexOf(".")));
+                
+          for (let i = 0; i < requiredExtensions.length; i++) {
+            if (!selectedExtensions.includes(requiredExtensions[i])) {
+              alert("Please select a " + requiredExtensions[i] + " file.");
+              return;
+            }
+          }
+              
+          fileListDiv.innerHTML = "";
+          let totSize = 0;
+          for (let i = 0; i < files.length; i++) {
+            console.log("File size before compression", files[i].size, "bytes")
+            totSize = totSize + files[i].size;
+            if (files[i].size > MAX_FILE_SIZE) {
+              alert("Shapefile is too large, it will take a lot of time to send the file to the server.");
+              importButton.disabled = false;
+              return;
+            }
+          }
+          console.log("Total size: ", totSize, "bytes");
+          importButton.disabled = false;
+        });
+          
+        importButton.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          var responseModal = new bootstrap.Modal(document.getElementById('response-modal'));
+          responseModal.show()
+          
+          var progressBar = responseModal._element.querySelector('.progress-bar');
+          var messageElement = responseModal._element.querySelector('.modal-body p');
+          progressBar.style.width='0%';
+          messageElement.textContent='';
+
+          function updateProgressBar(percentProgress, message){
+            progressBar.style.width= percentProgress
+            messageElement.textContent = message
+          }
+
+          // Compress selected files into a ZIP file
+          const startTime = Date.now()
+          updateProgressBar('10%', 'Compressing the files...')
+          const zip = new JSZip();
+          for (let i = 0; i < files.length; i++) {
+            zip.file(files[i].name, files[i]);
+          }
+          updateProgressBar('20%', 'Compressing the files...')
+          
+          updateProgressBar('30%', 'Compressing the files...')
+          zip.generateAsync({
+            type:"blob",
+            compression: "DEFLATE",
+            compressionOption: {
+              level: 9
+            }
+          })
+          .then(function(zipBlob) {
+            updateProgressBar('40%', 'Compressing the files...')
+            updateProgressBar('40%', 'Preparing to send the compressed file to the server...')
+            if (zipBlob.size > 20000000){
+              updateProgressBar('40%', 'Your compressed file is larger than 20 mb so it might take some time to send it to the server...')
+            }
+            // Set the ZIP file as the form data
+            updateProgressBar('50%', 'Preparing to send the compressed file to the server...')
+            console.log("Zip file being sent: ", zipBlob);
+            console.log("Compressed file size: ", zipBlob.size, "bytes");
+            const formData = new FormData();
+            const zipFileName = files.length > 0 ? files[0].name.replace(/\.[^/.]+$/, "") + ".zip" : "files.zip";
+            formData.append("zipfile", zipBlob, zipFileName);
+            formData.set("csrfmiddlewaretoken", "{{ csrf_token }}");
+            updateProgressBar('60%', 'Preparing to send the compressed file ' + zipFileName + ' to the server...')
+            console.log("Form being sent: ", formData)
+            console.log("Files compressed and ready to be sent")
+            
+            // Send the POST request with the ZIP file data
+            if (zipBlob.size > 20000000){
+              updateProgressBar('90%', 'Making a post request with ' + zipFileName+ ' Your compressed file is larger than 20 mb so it might take some time to send it to the server...')
+            } else  {
+              updateProgressBar('90%', 'Making a post request with ' + zipFileName)
+            }
+            
+            fetch("{% url 'main:save-shapefiles' %}", {
+              method: 'POST',
+              body: formData,
+              headers: {
+                'X-CSRFToken': "{{ csrf_token }}"
+              }
+            })
+            .then(function(response) {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+                updateProgressBar('90%', `HTTP error! status: ${response.status}` )
+              }
+              return response.json();
+              updateProgressBar('90%', 'Made a post request wth ' + zipFileName + ', waiting for a response from the server...')
+              console.log("Post request sent");
+            })
+            .then(function(data){
+              const endTime = Date.now();
+              updateProgressBar('100%', data.success_msg + " Time taken: " + (((endTime - startTime)/1000)/60).toFixed(3)+ " minute/s");
+              console.log("Success message: " + data.success_msg);
+
+            })
+            .catch(function(err) {
+              alert(err);
+            });
+          })
+          .catch(function(err) {
+            alert(err);
+          });
+        });
+        
+      </script>
+</form>
+{% endblock content %}

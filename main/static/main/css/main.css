@@ -1,0 +1,272 @@
+html, body {
+  padding: 0%;
+  margin: 0%;
+  height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.map {
+  position: relative;
+  width: 100%;
+  height: 70%;
+  border-bottom: 10px;
+  border-style: solid;
+  border-color: dimgrey;
+  margin-bottom: 4px;
+}
+
+.col {background-color: rgb(79, 78, 78);border-style: solid;border-width: thin;border-color: rgb(132, 132, 132);color: antiquewhite;}
+
+
+
+#map:focus {
+  outline: #4A74A8 solid 0.15em;
+}
+
+#import.col{
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 0px;
+  padding-bottom: 2px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+
+
+.ol-touch .btn-recenter {
+  top: 80px;
+  width: 50px;
+}
+.ol-control button.btn-layers {
+  margin-top: 72px;
+  margin-left: 8px;
+  width: 150px;
+  background-color: aliceblue;
+  position: absolute;
+  height: 25px;
+}
+
+.layers {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  margin-left: 8px;
+  min-width: fit-content;
+}
+
+.layers div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5px;
+  max-width: 150px;
+  border-bottom: 1px solid #ddd;
+}
+.layers label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.layers label:hover {
+  white-space: normal;
+  max-width: fit-content;
+}
+.layers div:hover {
+  white-space: normal;
+  max-width: fit-content;
+}
+.layers div:last-child {
+  border-bottom: none;
+  
+}
+
+.layers input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+#popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: fit-content;
+  height: fit-content;
+  background-color: white;
+  border-radius: 5px;
+  padding: 0px;
+}
+
+#popup.ol-popup {
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  padding: 2px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  bottom: 12px;
+  left: -50px;
+  overflow: auto;
+  width: 200px;
+  height: 200px;
+  padding: 0px;
+  resize: both;
+}
+.ol-popup:after, .ol-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.ol-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
+.ol-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+.ol-popup-closer {
+  text-decoration: none;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+}
+.ol-popup-closer:after {
+  content: "✖";
+}
+
+.table#attrib-table {
+  background-color: rgb(161, 161, 161);
+}
+
+#collapse-btn {
+  display: block;
+  margin-bottom: 10px;
+  
+}
+
+.collapsed #attrib-table {
+  display: none;
+}
+
+#popup-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 200px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+#progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: lightgray;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+#progress-bar-fill {
+  height: 100%;
+  background-color: green;
+  border-radius: 10px;
+}
+
+#popup-message {
+  font-size: 16px;
+  text-align: center;
+}
+
+#layer-dropdown-div {
+  padding-left: 10px;
+}
+
+#layer-dropdown li {
+  text-align: center;
+  background-color:rgb(146, 146, 146);
+  border-style: outset;
+}
+
+#layer-dropdown li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: aliceblue;
+}
+
+#layer-dropdown li:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.dropdown-menu.show {
+  display: block;
+  background-color: #565e64;
+}
+
+.btn-toolbar-custom {
+  color: white;
+  background-color: rgb(71, 71, 71);
+  outline-style: auto;
+  outline-color: #565e64;
+}
+
+.btn-toolbar {
+  background-color: #555657;
+}
+
+a.btn-button.btn-overlay.btn-collapse {
+  padding: 2px;
+  color: #ececec;
+  background-color: rgba(var(--bs-dark-rgb));
+  text-decoration: none;
+  position: absolute;
+  top: 1%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: x-small;
+  z-index: 5;
+  border-style: solid;
+  border-top-style: solid;
+  border-top-width: thin;
+  border-color: rgba(var(--bs-dark-rgb));
+  border-bottom-color:rgb(146, 146, 146);
+  border-bottom-width: thick;
+}
+

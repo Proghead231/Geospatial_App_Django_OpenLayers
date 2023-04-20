@@ -1,0 +1,150 @@
+html, body {
+  padding: 0%;
+  margin: 0%;
+  height: 100%;
+  width: 100%;
+}
+
+.map {
+  width: 100%;
+  height: 70%;
+  border-bottom: 10px;
+  border-style: solid;
+  border-color: dimgrey;
+  margin-bottom: 4px;
+}
+
+.col {background-color: rgb(79, 78, 78);border-style: solid;border-width: thin;border-color: rgb(132, 132, 132);color: antiquewhite;}
+
+
+
+#map:focus {
+  outline: #4A74A8 solid 0.15em;
+}
+
+#import.col{
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 10px;
+  padding-bottom: 2px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.form-group{
+  width: 89%;
+  margin: 0 auto;
+  padding-top: 10px;
+  padding-bottom: 2px;
+  padding-left: 0px;
+  padding-right: 0px;
+  background-color: rgb(79, 78, 78);
+  border-style: solid;
+  border-width: thin;
+  border-color: rgb(132, 132, 132);
+  color: antiquewhite;
+}
+
+.ol-touch .btn-recenter {
+  top: 80px;
+  width: 50px;
+}
+.ol-control button.btn-layers {
+  margin-top: 80px;
+  margin-left: 8px;
+  width: 100px;
+  background-color: aliceblue;
+  position: absolute;
+}
+
+.layers {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  margin-left: 8px;
+  min-width: fit-content;
+}
+
+.layers div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+}
+.layers label {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.layers div:last-child {
+  border-bottom: none;
+  
+}
+
+.layers input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.ol-popup {
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  padding: 2px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  bottom: 12px;
+  left: -50px;
+  min-width: 200px;
+}
+.ol-popup:after, .ol-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.ol-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
+.ol-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+.ol-popup-closer {
+  text-decoration: none;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+}
+.ol-popup-closer:after {
+  content: "✖";
+}
+
+.table#attrib-table {
+  background-color: rgb(161, 161, 161);
+}
+
+#collapse-btn {
+  display: block;
+  margin-bottom: 10px;
+  
+}
+
+.collapsed #attrib-table {
+  display: none;
+}
+
+
